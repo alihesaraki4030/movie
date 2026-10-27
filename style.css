@@ -1,0 +1,52 @@
+*{box-sizing:border-box}
+:root{--bg:#0c0c0e;--card:#161618;--line:#ffffff1a;--mut:#9a9aa3;--acc:#fbbf24}
+body{margin:0;background:var(--bg);color:#eee;font:14px/1.4 system-ui,Segoe UI,Roboto,sans-serif}
+header{position:sticky;top:0;z-index:30;display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:10px 16px;background:#0c0c0ef2;border-bottom:1px solid var(--line);backdrop-filter:blur(6px)}
+h1{font-size:18px;margin:0}
+input,select,textarea,button{font:inherit;color:inherit}
+input[type=search],input[type=text],input[type=url],input[type=number],input[type=password],select,textarea{background:#1a1a1d;border:1px solid var(--line);border-radius:8px;padding:8px 10px;width:100%}
+#q{flex:1;min-width:160px;max-width:420px;width:auto}
+button{background:transparent;border:1px solid var(--line);border-radius:8px;padding:7px 12px;cursor:pointer}
+button:hover{background:#ffffff14}
+button.primary{background:var(--acc);color:#000;border-color:var(--acc);font-weight:600}
+button.danger{color:#f87171}
+button:disabled{opacity:.5;cursor:default}
+:focus-visible{outline:2px solid var(--acc);outline-offset:1px}
+#sync{font-size:12px;color:var(--mut)}
+#health{display:flex;gap:8px;flex-wrap:wrap;padding:6px 16px;font-size:12px;color:var(--mut)}
+.chip{border:1px solid var(--line);border-radius:999px;padding:1px 9px;cursor:pointer}
+.chip.ok{color:#34d399}.chip.bad{color:#f87171}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:8px 16px}
+.bar select{width:auto}.grow{flex:1}.chk{display:flex;gap:6px;align-items:center}
+#count{color:var(--acc);font-size:12px}
+main{padding:0 16px 60px;max-width:1700px;margin:0 auto}
+section.yr h2{font-size:24px;margin:26px 0 10px;padding-bottom:4px;border-bottom:1px solid var(--line)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:14px}
+.card{position:relative;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;cursor:pointer;transition:transform .15s}
+.card:hover{transform:translateY(-3px);border-color:#ffffff4d}
+.poster{position:relative;aspect-ratio:2/3;background:#222 center/cover}
+.poster img{width:100%;height:100%;object-fit:cover;display:none}
+.poster img.ok{display:block}
+.poster .ph{position:absolute;inset:0;display:grid;place-items:center;padding:8px;text-align:center;color:#6b6b74;font-size:12px}
+.poster img.ok~.ph{display:none}
+.poster.loading .ph::after{content:"…"}
+.meta{padding:8px}.meta b{display:block;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.meta div{display:flex;justify-content:space-between;color:var(--mut);font-size:12px}.meta .r{color:var(--acc)}
+.tools{position:absolute;right:4px;top:4px;display:none;gap:4px}.card:hover .tools,.card:focus-within .tools{display:flex}
+.tools button{background:#000c;padding:2px 8px;font-size:12px}
+.empty{text-align:center;color:var(--mut);padding:80px 0}
+.overlay{position:fixed;inset:0;z-index:50;background:#000b;display:grid;place-items:start center;overflow:auto;padding:24px 12px}
+.modal{width:100%;max-width:680px;background:#161618;border:1px solid var(--line);border-radius:14px;padding:18px}
+.modal h2{margin:0 0 10px;font-size:18px}
+.row{display:grid;gap:10px;grid-template-columns:1fr 1fr}@media(max-width:560px){.row{grid-template-columns:1fr}}
+.modal label{display:block;font-size:12px;color:var(--mut);margin-top:8px}.modal label>*{margin-top:4px;color:#eee}
+.actions{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}
+.hint{font-size:12px;color:var(--mut);margin:8px 0 0}.err{color:#f87171;font-size:13px;margin:8px 0 0}
+.hits{list-style:none;margin:8px 0 0;padding:0;border:1px solid var(--line);border-radius:8px;max-height:280px;overflow:auto}
+.hits button{display:flex;gap:10px;align-items:center;width:100%;text-align:left;border:0;border-radius:0;padding:6px}
+.hits img,.hits .noimg{width:40px;height:56px;border-radius:4px;object-fit:cover;background:#222;flex:none}
+.detail{display:grid;gap:16px;grid-template-columns:200px 1fr}@media(max-width:560px){.detail{grid-template-columns:1fr}}
+.detail .poster{border-radius:10px;overflow:hidden}
+.detail a{color:var(--acc)}
+#toast{position:fixed;right:14px;bottom:14px;z-index:90;padding:8px 14px;border-radius:8px;background:#059669;display:none}
+#toast.bad{background:#dc2626}

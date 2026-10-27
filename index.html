@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Movie Archive</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header id="top">
+  <h1>🎬 Movie Archive</h1>
+  <input id="q" type="search" placeholder="Search title, year or IMDb ID…" aria-label="Search">
+  <button id="add" class="primary" hidden>+ Add movie</button>
+  <span id="sync"></span>
+  <button id="connect">Connect GitHub to edit</button>
+  <button id="settings" title="Poster sources & API keys">⚙</button>
+</header>
+<div id="health" title="Click a source to retry it"></div>
+<div class="bar">
+  <label>Sort <select id="sort"><option value="desc">Year — newest first</option><option value="asc">Year — oldest first</option></select></label>
+  <label>Year <select id="year"><option value="">All</option></select></label>
+  <label class="chk"><input id="rated" type="checkbox"> Rated only</label>
+  <span class="grow"></span>
+  <span id="count"></span>
+  <button id="export">Export</button>
+  <button id="import" hidden>Import</button>
+  <input id="file" type="file" accept="application/json" hidden>
+</div>
+<main id="list"></main>
+<div id="toast" role="status"></div>
+<script src="app.js"></script>
+</body>
+</html>
