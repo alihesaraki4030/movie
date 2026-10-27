@@ -113,7 +113,7 @@ async function lookupMeta(id) {
 }
 async function* candidates(m) {
   const seen = new Set(), key = m.imdbId || m.id;
-  for (const u of [posterCache[key], m.posterUrl]) if (u && !seen.has(u)) { seen.add(u); yield u; }
+  for (const u of [m.posterUrl, posterCache[key]]) if (u && !seen.has(u)) { seen.add(u); yield u; }
   if (!m.imdbId) return;
   for (const n of order()) {
     const r = await guard(n, () => PROVIDERS[n](m.imdbId)); if (!r) continue;
@@ -333,7 +333,7 @@ function validate(o) {
     const title = s("title", 300); if (!title) throw new Error("Title is required");
     const year = n("releaseYear", 1888, 2100, "Release year"); if (year == null || !Number.isInteger(year)) throw new Error("Release year is required");
     const imdbId = s("imdbId", 20); if (imdbId && !/^tt\d{5,10}$/.test(imdbId)) throw new Error("Invalid IMDb ID (e.g. tt0111161)");
-    const posterUrl = s("posterUrl", 1000); if (posterUrl && !/^https?:\/\/\S+$/.test(posterUrl)) throw new Error("Invalid poster URL");
+    const posterUrl = s("posterUrl", 1000); if (posterUrl && !/^(https?:\/\/|public\/)\S+$/.test(posterUrl)) throw new Error("Invalid poster URL");
     return { data: { title, originalTitle: s("originalTitle", 300), releaseYear: year, imdbId, posterUrl, personalRating: n("personalRating", 0, 10, "Personal rating"), notes: s("notes", 2000) } };
   } catch (e) { return { error: e.message }; }
 }
@@ -386,7 +386,13 @@ $("#file").addEventListener("change", async (e) => {
 (async function init() {
   renderHealth(); setSync("idle"); movies = store.get(K_LIST, null); render();            // cached list first, instantly
   try {
-    if (cfg) { const r = await fetchRemote(); sha = r.sha; movies = r.list; } else movies = await loadPublic();
+    if (cfg) {
+      try { const r = await fetchRemote(); sha = r.sha; movies = r.list; }
+      catch (e) { // token / repo / branch problem: still show the public list, read-only, and say what is wrong
+        cfg = null; setSync("idle"); toast(e.message + " — showing read-only. Click Connect GitHub and check repo, branch and token.", false);
+        movies = await loadPublic();
+      }
+    } else movies = await loadPublic();
     store.set(K_LIST, movies);
   } catch (e) { movies ??= []; toast(e.message, false); }
   render();

@@ -11,5 +11,8 @@ No build step. Files: `index.html`, `style.css`, `app.js`, data in `public/movie
 ## Editing
 Click **Connect GitHub to edit** (repo `user/repo`, branch `main`, fine-grained token with Contents: Read and write). Add / edit / delete / import commit `public/movies.json`.
 
-## Posters
+## Posters — recommended: the "Fill posters" Action
+Actions tab → **Fill posters** → Run workflow. GitHub's servers download every poster into `public/posters/` (from IMDb, else Wikipedia, else TMDB if you add a repo secret `TMDB_API_KEY`), update `movies.json` and redeploy. After ~2 minutes the site shows posters served from github.io itself — no dependency on IMDb in your browser. Run it again after adding movies.
+
+## Posters in the browser (fallback)
 Each poster is looked up when its card scrolls into view, trying in order: TMDB (only if you add a key in ⚙), IMDb, Wikipedia/Wikidata, OMDb (only with a key). A source your network can't reach is switched off automatically (see the "Poster sources" line under the header; click a source to retry). When connected to GitHub, the posters that were found are saved into `movies.json` in one commit, so next time they load instantly.
