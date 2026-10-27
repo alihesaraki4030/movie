@@ -13,11 +13,10 @@ jobs:
       - name: Collect site files
         run: |
           ls -la
-          for f in index.html style.css app.js; do [ -f "$f" ] || { echo "::error::$f is missing from the repo root"; exit 1; }; done
+          for f in index.html style.css app.js public/movies.json; do [ -f "$f" ] || { echo "::error::$f is missing from the repo root"; exit 1; }; done
           mkdir _site
           cp index.html style.css app.js _site/
-          [ -d public ] && cp -r public _site/public
-          ls -R _site | head -30
+          cp -r public _site/public
       - uses: actions/upload-pages-artifact@v3
         with: { path: _site }
   deploy:

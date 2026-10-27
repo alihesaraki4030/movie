@@ -1,0 +1,29 @@
+name: Fill posters
+# Downloads the poster of every movie into public/posters/ and updates public/movies.json, then redeploys the site.
+# Run: Actions tab -> "Fill posters" -> Run workflow. (Optional: add a repo secret TMDB_API_KEY as an extra source.)
+on:
+  workflow_dispatch:
+permissions: { contents: write, actions: write }
+concurrency: { group: fill-posters, cancel-in-progress: false }
+jobs:
+  fill:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - run: node scripts/fill-posters.mjs
+        env:
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+      - name: Commit and redeploy
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git add -A public
+          git diff --cached --quiet && { echo "nothing to commit"; exit 0; }
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Fill posters"
+          git pull --rebase origin main
+          git push
+          gh workflow run deploy.yml
